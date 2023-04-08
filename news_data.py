@@ -15,7 +15,7 @@ def get_stock_news(symbol: str, api_key: str) -> List[dict]:
     today = datetime.now().date()
     thirty_days_ago = (today - timedelta(days=30)).isoformat()
 
-    url = f"https://newsapi.org/v2/everything?q={symbol}&from={thirty_days_ago}&sortBy=relevance&apiKey={api_key}"
+    url = f"https://newsapi.org/v2/everything?q=${symbol}&from={thirty_days_ago}&sortBy=relevance&apiKey={api_key}"
     response = requests.get(url)
 
     if response.status_code != 200:
