@@ -13,6 +13,8 @@ from stock_data import get_stock_data, extract_data, list_of_tickers
 from news_data import get_stock_news, get_overall_sentiment, sentiment_color, NEWS_API_KEY
 from figures import create_figure
 
+import numpy as np
+
 external_stylesheets = [dbc.themes.BOOTSTRAP, "/styles.css"]
 
 def main():
@@ -43,6 +45,19 @@ def main():
                 value='TIME_SERIES_DAILY_ADJUSTED',
                 clearable=False,
                 style={'width': '200px'}
+            ),
+        ]),
+        dbc.Col([
+            html.Label("Display Options:", className="input-label"),
+            dcc.Checklist(
+                id='display_options',
+                options=[
+                    {'label': 'Closing Price', 'value': 'closing_price'},
+                    {'label': 'Trading Volume', 'value': 'trading_volume'},
+                    {'label': 'Moving Average', 'value': 'moving_average'}
+                ],
+                value=['closing_price', 'trading_volume'],
+                inline=True,
             ),
         ]),
     ], className="mb-4"),
@@ -100,9 +115,10 @@ def main():
         Output('news_section_heading', 'children'),
         Output('overall_sentiment', 'children'),
         [Input('ticker_input', 'value'),
-        Input('timeframe_dropdown', 'value')]
+        Input('timeframe_dropdown', 'value'),
+        Input('display_options', 'value')]
     )
-    def update_graph(ticker, timeframe):
+    def update_graph(ticker, timeframe, display_options):
 
         if ticker not in list_of_tickers:
             return go.Figure(layout=dict(xaxis=dict(visible=False), yaxis=dict(visible=False))), display_error_message("Please enter a valid stock ticker"), "Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news", "N/A"
@@ -111,12 +127,12 @@ def main():
 
         try:
             data = get_stock_data(ticker, timeframe)
+            closing_prices, dates, opening_prices, high_prices, low_prices, volumes = extract_data(data)
         except Exception as e:
-            go.Figure(layout=dict(xaxis=dict(visible=False), yaxis=dict(visible=False))), display_error_message("Error fetching stock data. Please try again or enter a different stock ticker"), "Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news", "N/A"
+            return go.Figure(layout=dict(xaxis=dict(visible=False), yaxis=dict(visible=False))), display_error_message("Error fetching stock data. Please try again or enter a different stock ticker"), "Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news", "N/A"
 
-        closing_prices, dates, opening_prices, high_prices, low_prices, volumes = extract_data(data)
-        fig = create_figure(closing_prices, dates, opening_prices, high_prices, low_prices, volumes, ticker)
-
+        fig = create_figure(closing_prices, dates, opening_prices, high_prices, low_prices, volumes, ticker, display_options)
+        
         if timeframe == "TIME_SERIES_DAILY_ADJUSTED":
             fig.update_layout(title=f"Daily Closing Prices and Trading Volume for {ticker}")
         elif timeframe == "TIME_SERIES_WEEKLY_ADJUSTED":
