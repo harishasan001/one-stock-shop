@@ -117,7 +117,6 @@ def main():
     @app.callback(
         Output('stock_plot', 'figure'),
         Output('news_articles', 'children'),
-        Output('news_section_heading', 'children'),
         Output('overall_sentiment', 'children'),
         Output('stock_plot_container', 'style'),
         Output('news_button', 'style'),
@@ -126,9 +125,9 @@ def main():
         Input('display_options', 'value')]
     )
     def update_graph(ticker, timeframe, display_options):
-
-        if ticker not in list_of_tickers:
-            return go.Figure(layout=dict(xaxis=dict(visible=False), yaxis=dict(visible=False))), display_error_message("Error fetching stock data. Please try again or enter a different stock ticker"), "Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news", "N/A", {"display": "none"}, {"display": "none"}
+        if ticker not in list_of_tickers or ticker == "":
+            return go.Figure(layout=dict(xaxis=dict(visible=False), yaxis=dict(visible=False))), display_error_message(
+                "Error fetching stock data. Please try again or enter a different stock ticker"), None, {"display": "none"}, {"display": "none"}
 
         ticker = ticker.upper()
 
@@ -136,7 +135,7 @@ def main():
             data = get_stock_data(ticker, timeframe)
             closing_prices, dates, opening_prices, high_prices, low_prices, volumes = extract_data(data)
         except Exception as e:
-            return go.Figure(layout=dict(xaxis=dict(visible=False), yaxis=dict(visible=False))), display_error_message("Error fetching stock data. Please try again or enter a different stock ticker"), "Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news", "N/A"
+            return go.Figure(layout=dict(xaxis=dict(visible=False), yaxis=dict(visible=False))), display_error_message("Error fetching stock data. Please try again or enter a different stock ticker"), "N/A", {"display": "none"}, {"display": "none"}
 
         fig = create_figure(closing_prices, dates, opening_prices, high_prices, low_prices, volumes, ticker, display_options)
         
@@ -150,12 +149,13 @@ def main():
         try:
             stock_news = get_stock_news(ticker, NEWS_API_KEY)
         except Exception as e:
-            return fig, display_error_message("Error fetching news articles. Please try again or enter a different stock ticker"), "N/A"
+            return fig, display_error_message("Error fetching news articles. Please try again or enter a different stock ticker"), "N/A", {"display": "block"}, {"display": "block"}
 
         if len(stock_news) == 0:
             return fig, html.Div([
                 html.H4("No news articles found for this stock.", className="news-title"),
-            ]), html.H4("Overall Sentiment: N/A")
+            ]), html.H4("Overall Sentiment: N/A"), {"display": "block"}, {"display": "block"}
+
 
         news_div = html.Div([
     html.H4(id='news_section_heading', className="news-title"),
@@ -190,10 +190,10 @@ def main():
         overall_sentiment_text = f"Overall Sentiment: {overall_sentiment['sentiment']}"
         overall_sentiment_color = overall_sentiment['color']
 
-        news_section_heading = html.H4(f"Latest, most relevant headlines about {ticker}", className="news-title")
         overall_sentiment_component = html.H4(overall_sentiment_text, style={"color": overall_sentiment_color}, className="overall-sentiment-text")
-        return fig, news_div, news_section_heading, overall_sentiment_component, {"display": "block"}, {"display": "block"} 
-    
+
+        return fig, news_div, overall_sentiment_component, {"display": "block"}, {"display": "block"}
+
     @app.callback(
     [Output("news_container", "style"),
     Output("news_button", "children")],  # Add this line to modify the button text
@@ -204,7 +204,17 @@ def main():
             return {"display": "none"}, "Show News" 
         else:
             return {"display": "block"}, "Hide News"
-    
+        
+    @app.callback(
+    Output('news_section_heading', 'children'),
+    Input('ticker_input', 'value'),
+)
+    def update_news_section_heading(ticker):
+        if not ticker:
+            return html.H4("Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news", className="news-title", style={'color': 'gray'})
+        else:
+            return html.H4(f"Latest, most relevant headlines about {ticker}", className="news-title")
+        
     app.run_server(debug=True)
 
 if __name__ == '__main__':
