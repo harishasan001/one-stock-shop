@@ -74,10 +74,12 @@ def main():
             html.Div(id='news_section_heading', children=[
                 html.H4("Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news", className="news-title", style={'color': 'gray'}),
             ]),
-
+            dbc.Button("Show News", id="news_button", className="mb-2", color="primary", outline=True),
             html.Div(
                 dbc.Spinner(html.Div(id='news_articles', children=[]), color="primary", type="grow", fullscreen=True),
-                className="dashboard-spinner"
+                className="dashboard-spinner",
+                id="news_container",  
+                style={"display": "none"}, 
             ),
         ], width=12),
     ], className="mb-4"),
@@ -187,6 +189,17 @@ def main():
         overall_sentiment_component = html.H4(overall_sentiment_text, style={"color": overall_sentiment_color}, className="overall-sentiment-text")
         return fig, news_div, news_section_heading, overall_sentiment_component
 
+    @app.callback(
+    [Output("news_container", "style"),
+    Output("news_button", "children")],  # Add this line to modify the button text
+    Input("news_button", "n_clicks")
+    )
+    def toggle_news_section(n_clicks):
+        if n_clicks is None or n_clicks % 2 == 0:
+            return {"display": "none"}, "Show News" 
+        else:
+            return {"display": "block"}, "Hide News"
+    
     app.run_server(debug=True)
 
 if __name__ == '__main__':
