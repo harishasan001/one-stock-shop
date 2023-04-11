@@ -158,7 +158,6 @@ def main():
 
 
         news_div = html.Div([
-    html.H4(id='news_section_heading', className="news-title"),
     dbc.Row(
         [
             dbc.Col(
@@ -195,25 +194,30 @@ def main():
         return fig, news_div, overall_sentiment_component, {"display": "block"}, {"display": "block"}
 
     @app.callback(
-    [Output("news_container", "style"),
-    Output("news_button", "children")],  # Add this line to modify the button text
-    Input("news_button", "n_clicks")
+        [Output('news_section_heading', 'children'),
+        Output("news_container", "style"),
+        Output("news_button", "children")],
+        [Input('ticker_input', 'value'),
+        Input('news_button', 'n_clicks')]
     )
-    def toggle_news_section(n_clicks):
-        if n_clicks is None or n_clicks % 2 == 0:
-            return {"display": "none"}, "Show News" 
-        else:
-            return {"display": "block"}, "Hide News"
-        
-    @app.callback(
-    Output('news_section_heading', 'children'),
-    Input('ticker_input', 'value'),
-)
-    def update_news_section_heading(ticker):
-        if not ticker:
-            return html.H4("Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news", className="news-title", style={'color': 'gray'})
-        else:
-            return html.H4(f"Latest, most relevant headlines about {ticker}", className="news-title")
+    def update_news_section_heading_and_toggle(ticker, n_clicks):
+        ctx = dash.callback_context
+        triggered_input = ctx.triggered[0]['prop_id'].split('.')[0]
+
+        if triggered_input == 'ticker_input':
+            if not ticker:
+                return html.H4("Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news", className="news-title", style={'color': 'gray'}), dash.no_update, "Show News"
+            else:
+                return [], dash.no_update, f"{ticker} News Insights"
+
+        elif triggered_input == 'news_button':
+            if n_clicks is None or n_clicks % 2 == 0:
+                return [], {"display": "none"}, f"{ticker} News Insights" 
+            else:
+                return [], {"display": "block"}, "Hide News" 
+
+
+
         
     app.run_server(debug=True)
 
