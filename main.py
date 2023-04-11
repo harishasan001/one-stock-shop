@@ -65,7 +65,7 @@ def main():
     dbc.Row([
         dbc.Col([
             html.Div(
-                dbc.Spinner(dcc.Graph(id='stock_plot'), color="primary", type="grow", fullscreen=True),
+                dbc.Spinner(dcc.Graph(id='stock_plot'), color="primary", type="grow"),
                 className="dashboard-spinner",
                 id="stock_plot_container",
                 style={"display": "none"},
@@ -206,7 +206,9 @@ def main():
 
         if triggered_input == 'ticker_input':
             if not ticker:
-                return html.H4("Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news", className="news-title", style={'color': 'gray'}), dash.no_update, "Show News"
+                return html.H4(
+                    "Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news",
+                    className="news-title", style={'color': 'gray'}), dash.no_update, "Show News"
             else:
                 return [], dash.no_update, f"{ticker} News Insights"
 
