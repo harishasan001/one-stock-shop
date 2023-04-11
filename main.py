@@ -120,6 +120,7 @@ def main():
         Output('news_section_heading', 'children'),
         Output('overall_sentiment', 'children'),
         Output('stock_plot_container', 'style'),
+        Output('news_button', 'style'),
         [Input('ticker_input', 'value'),
         Input('timeframe_dropdown', 'value'),
         Input('display_options', 'value')]
@@ -127,7 +128,7 @@ def main():
     def update_graph(ticker, timeframe, display_options):
 
         if ticker not in list_of_tickers:
-            return go.Figure(layout=dict(xaxis=dict(visible=False), yaxis=dict(visible=False))), display_error_message("Please enter a valid stock ticker"), "Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news", "N/A", {"display": "none"}
+            return go.Figure(layout=dict(xaxis=dict(visible=False), yaxis=dict(visible=False))), display_error_message("Error fetching stock data. Please try again or enter a different stock ticker"), "Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news", "N/A", {"display": "none"}, {"display": "none"}
 
         ticker = ticker.upper()
 
@@ -191,7 +192,7 @@ def main():
 
         news_section_heading = html.H4(f"Latest, most relevant headlines about {ticker}", className="news-title")
         overall_sentiment_component = html.H4(overall_sentiment_text, style={"color": overall_sentiment_color}, className="overall-sentiment-text")
-        return fig, news_div, news_section_heading, overall_sentiment_component, {"display": "block"}
+        return fig, news_div, news_section_heading, overall_sentiment_component, {"display": "block"}, {"display": "block"} 
     
     @app.callback(
     [Output("news_container", "style"),
