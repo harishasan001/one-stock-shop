@@ -52,12 +52,13 @@ def main():
             dcc.Checklist(
                 id='display_options',
                 options=[
-                    {'label': 'Closing Price', 'value': 'closing_price'},
-                    {'label': 'Trading Volume', 'value': 'trading_volume'},
-                    {'label': 'Moving Average', 'value': 'moving_average'}
+                    {'label': '  Closing Price', 'value': 'closing_price'},
+                    {'label': '  Trading Volume', 'value': 'trading_volume'},
+                    {'label': '  Moving Average', 'value': 'moving_average'}
                 ],
                 value=['closing_price', 'trading_volume'],
                 inline=True,
+                className="display-options",
             ),
         ]),
     ], className="mb-4"),
@@ -65,7 +66,9 @@ def main():
         dbc.Col([
             html.Div(
                 dbc.Spinner(dcc.Graph(id='stock_plot'), color="primary", type="grow", fullscreen=True),
-                className="dashboard-spinner"
+                className="dashboard-spinner",
+                id="stock_plot_container",
+                style={"display": "none"},
             ),
         ], width=12),
     ], className="mb-4"),
@@ -116,6 +119,7 @@ def main():
         Output('news_articles', 'children'),
         Output('news_section_heading', 'children'),
         Output('overall_sentiment', 'children'),
+        Output('stock_plot_container', 'style'),
         [Input('ticker_input', 'value'),
         Input('timeframe_dropdown', 'value'),
         Input('display_options', 'value')]
@@ -123,7 +127,7 @@ def main():
     def update_graph(ticker, timeframe, display_options):
 
         if ticker not in list_of_tickers:
-            return go.Figure(layout=dict(xaxis=dict(visible=False), yaxis=dict(visible=False))), display_error_message("Please enter a valid stock ticker"), "Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news", "N/A"
+            return go.Figure(layout=dict(xaxis=dict(visible=False), yaxis=dict(visible=False))), display_error_message("Please enter a valid stock ticker"), "Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news", "N/A", {"display": "none"}
 
         ticker = ticker.upper()
 
@@ -187,8 +191,8 @@ def main():
 
         news_section_heading = html.H4(f"Latest, most relevant headlines about {ticker}", className="news-title")
         overall_sentiment_component = html.H4(overall_sentiment_text, style={"color": overall_sentiment_color}, className="overall-sentiment-text")
-        return fig, news_div, news_section_heading, overall_sentiment_component
-
+        return fig, news_div, news_section_heading, overall_sentiment_component, {"display": "block"}
+    
     @app.callback(
     [Output("news_container", "style"),
     Output("news_button", "children")],  # Add this line to modify the button text

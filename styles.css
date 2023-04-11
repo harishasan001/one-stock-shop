@@ -121,5 +121,36 @@ body {
     overflow: hidden; /* hide any content that exceeds the container size */
 }
 
+/* Styles for the display options */
+.display-options {
+    display: flex;
+    gap: 10px; /* Adjust the spacing between the options */
+}
+
+.display-options .checklist {
+    display: flex;
+    align-items: center;
+}
+
+.display-options .checklist label {
+    margin-bottom: 0;
+}
+
+.display-options .checklist input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.display-options .checklist input[type="checkbox"]:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.display-options .checklist input[type="checkbox"]:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.display-options .checklist:not(:last-child) {
+    margin-right: 20px;
+}
 
 
