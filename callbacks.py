@@ -73,9 +73,9 @@ def update_graph(ticker, timeframe, display_options):
                 dbc.Col(
                     dbc.Card(
                         [
-                            html.Div( # Add this Div
+                            html.Div( 
                                 dbc.CardImg(src=article["image"], top=True, className="news-image"),
-                                className="news-image-container" # Add the new class here
+                                className="news-image-container"
                             ),
                             dbc.CardBody(
                                 [
