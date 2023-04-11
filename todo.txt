@@ -1,0 +1,31 @@
+Key Financial Metrics:
+a. Earnings per share (EPS) and revenue growth.
+b. Key valuation ratios: P/E, P/B, P/S, and EV/EBITDA.
+c. Key profitability ratios: Return on Equity (ROE), Return on Assets (ROA), and net profit margin.
+d. Debt-to-equity ratio and current ratio.
+
+Technical Analysis Summary:
+a. Short-term and long-term moving averages (e.g., 50-day, 200-day).
+b. Relative strength index (RSI) and other key technical indicators.
+c. Support and resistance levels.
+
+Recent Price Performance:
+a. Price chart with adjustable time frames (e.g., 1 month, 3 months, 1 year).
+b. Percentage change in price over various time periods (e.g., 1 day, 1 week, 1 month, YTD).
+
+Market Sentiment:
+a. Analysts' consensus rating (e.g., buy, hold, sell) and average price target.
+b. Short interest and days to cover.
+
+Portfolio Context:
+a. Correlation with other assets in the portfolio.
+b. Stock's weight in the portfolio and its impact on the overall risk-return profile.
+
+These points cover the most crucial aspects of a stock's financial health, 
+technical indicators, market sentiment, and portfolio implications. These factors 
+are likely to have a significant impact on the stock's performance and can provide 
+valuable insights to inform investment decisions.
+
+
+
+
