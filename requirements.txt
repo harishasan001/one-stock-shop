@@ -7,3 +7,4 @@ dash-html-components==2.0.0
 dash-table==5.0.0
 dash_renderer==1.9.1
 gunicorn
+requests
