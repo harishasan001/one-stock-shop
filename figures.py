@@ -78,4 +78,3 @@ def create_figure(closing_prices, dates, opening_prices, high_prices, low_prices
     fig.update_yaxes(title_text="Volume", row=2, col=1)
 
     return fig
-
