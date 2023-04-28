@@ -116,14 +116,19 @@ def update_news_section_heading_and_toggle(ticker, n_clicks):
 
     if triggered_input == 'ticker_input':
         if not ticker:
-            return html.H4(
+            return (html.H4(
                 "Enter the stock ticker in the input box, select the time frame, and get the stock charts, relevant news, and the sentiment from that news",
-                className="news-title", style={'color': 'gray'}), dash.no_update, "Show News"
+                className="news-title", style={'color': 'gray'}), dash.no_update, "Show News")
         else:
-            return [], dash.no_update, f"{ticker} News Insights"
+            return ([], dash.no_update, f"{ticker} News Insights")
 
     elif triggered_input == 'news_button':
         if n_clicks is None or n_clicks % 2 == 0:
-            return [], {"display": "none"}, f"{ticker} News Insights" 
+            return ([], {"display": "none"}, f"{ticker} News Insights")
         else:
-            return [], {"display": "block"}, "Hide News" 
+            return ([], {"display": "block"}, "Hide News")
+
+    # Return a default tuple to avoid None value in the callback
+    return ([], dash.no_update, "Show News")
+
+
