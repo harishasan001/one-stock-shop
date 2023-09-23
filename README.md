@@ -14,4 +14,4 @@ The stock dashboard provides the following features:
 - Show News Button: Toggle the display of news articles.
 - Overall Sentiment: Calculate the overall sentiment of the displayed news articles.
 
-![Alt Text]([Demo Video]([https://gifyu.com/image/S4UeP](https://gifyu.com/image/S4UeP)https://gifyu.com/image/S4UeP))
+![Alt Text](https://github.com/harishasan001/one-stock-shop/blob/main/stock%20app%20recording.gif)
