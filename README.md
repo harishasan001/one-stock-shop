@@ -13,3 +13,5 @@ The stock dashboard provides the following features:
 - News Section: Display relevant news articles for the selected stock.
 - Show News Button: Toggle the display of news articles.
 - Overall Sentiment: Calculate the overall sentiment of the displayed news articles.
+
+![Alt Text]([Demo Video]([https://gifyu.com/image/S4UeP](https://gifyu.com/image/S4UeP)https://gifyu.com/image/S4UeP))
