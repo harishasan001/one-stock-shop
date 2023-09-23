@@ -1,7 +1,7 @@
 # One Stock Shop
 ### A one stop shop for any particular stock
 
-The Python scripts create an interactive stock dashboard using the Dash web application framework. The dashboard allows users to search for stock tickers and visualize stock data in a user-friendly interface. The dashboard also fetches relevant news articles and calculates the overall sentiment of these articles.
+The Python scripts create an interactive stock dashboard using the Dash web application framework, allowing users to search for stock tickers and visualize stock data in a user-friendly interface. The dashboard also fetches relevant news articles and calculates the overall sentiment of these articles.
 
 ## Features
 The stock dashboard provides the following features:
